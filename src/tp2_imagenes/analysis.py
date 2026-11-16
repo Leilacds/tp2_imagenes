@@ -3,9 +3,13 @@ from __future__ import annotations
 from collections import Counter
 from collections.abc import Mapping, Sequence
 from functools import lru_cache
+from typing import TYPE_CHECKING
 
 from PIL import Image
-from transformers import Pipeline, pipeline
+from transformers import pipeline
+
+if TYPE_CHECKING:
+    from transformers.pipelines import Pipeline
 
 MODEL_ID = "PekingU/rtdetr_r50vd"
 SCORE_THRESHOLD = 0.4
