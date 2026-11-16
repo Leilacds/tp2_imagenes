@@ -1,0 +1,32 @@
+[build-system]
+requires = ["hatchling>=1.26,<2"]
+build-backend = "hatchling.build"
+
+[project]
+name = "tp2-imagenes"
+version = "0.1.0"
+description = "MVP para reducir ruido en fotos con difusión y análisis visual"
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "accelerate>=1.2,<2",
+    "diffusers>=0.32,<1",
+    "gradio>=5,<6",
+    "numpy>=1.26,<2",
+    "opencv-python-headless>=4.10,<5",
+    "pillow>=10,<12",
+    "torch>=2.4,<3",
+    "transformers>=4.46,<5",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3,<9",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/tp2_imagenes"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
