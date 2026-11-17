@@ -109,6 +109,47 @@ Estas pruebas ayudan a observar el comportamiento del sistema, pero no garantiza
 
 Revisá las fichas y condiciones de uso de los modelos antes de utilizarlos. La aplicación no requiere una API paga ni un token de Hugging Face para estos modelos públicos; si el Hub solicita aceptar condiciones, hacelo desde la página del modelo.
 
+### Cómo trabajan los modelos
+
+**SDXL image-to-image es el modelo de difusión del proyecto.** En términos simples, recibe la imagen y una instrucción textual sobre el aspecto deseado. El pipeline codifica la imagen en una representación interna, le agrega ruido según la intensidad elegida y realiza pasos iterativos para producir una nueva imagen guiada por la instrucción. En esta aplicación se usan 20 pasos, una instrucción para conservar la escena y reducir el ruido, y otra para desalentar cambios como agregar o quitar objetos.
+
+La **intensidad** (`strength`) determina cuánto se perturba la representación de entrada antes de la generación: más intensidad da al modelo más margen para cambiar la imagen. No equivale al porcentaje de ruido eliminado ni garantiza una mejora. La **semilla** fija el inicio aleatorio de la generación para facilitar comparaciones bajo la misma configuración. Aun con intensidad baja, SDXL puede alterar o inventar detalles porque es un modelo generativo general, no un restaurador especializado.
+
+**RT-DETR no es un modelo de difusión.** Es un detector de objetos basado en Transformers. La aplicación lo ejecuta sobre la imagen original y la salida de SDXL, y compara las etiquetas detectadas con confianza mínima de 0.40. Esto sirve para llamar la atención sobre objetos que aparecen o dejan de detectarse; no verifica identidad ni demuestra que la escena sea auténtica.
+
+**El filtro bilateral tampoco es un modelo de IA.** Es una técnica clásica de procesamiento de imágenes que suaviza variaciones locales tratando de preservar bordes. Se muestra como referencia para comparar con SDXL, no como una verdad de referencia ni como evaluación automática de calidad.
+
+### Estructura de carpetas y archivos
+
+```text
+tp2_imagenes/
+├── app.py                         # Punto de entrada: inicia la aplicación Gradio
+├── pyproject.toml                 # Dependencias, Python requerido y configuración del proyecto
+├── uv.lock                        # Versiones resueltas para repetir la instalación
+├── .python-version                # Versión de Python seleccionada por uv (3.12)
+├── .gitignore                     # Archivos locales, cachés y pesos que no se versionan
+├── README.md                      # Guía del proyecto, uso, modelos y limitaciones
+├── assets/
+│   └── ejemplos/                  # Imágenes sintéticas y copias ruidosas para pruebas
+├── docs/
+│   ├── trabajo_integrador_2.ipynb # Consigna del trabajo práctico
+│   ├── flujograma_software.png    # Diagrama visual del flujo del sistema
+│   └── presentacion_conceptual_difusion.png
+│                                   # Lámina conceptual del proyecto
+├── notebooks/
+│   └── ejecutar_en_colab.ipynb    # Configura Colab con GPU, instala y lanza la app
+├── src/
+│   └── tp2_imagenes/
+│       ├── __init__.py            # Marca el paquete de Python
+│       ├── app.py                 # Interfaz Gradio y coordinación del flujo
+│       ├── diffusion.py           # Carga SDXL y procesa la imagen con difusión
+│       ├── analysis.py            # Detecta y compara objetos con RT-DETR
+│       └── imaging.py             # Normalización, filtro bilateral y mapa de diferencias
+└── tests/
+    ├── test_analysis_import.py    # Comprueba la importación del módulo de análisis
+    └── test_imaging.py            # Prueba las transformaciones y validaciones de imágenes
+```
+
 ## Ejecución local
 
 Se requiere Python 3.12 y `uv`. La difusión necesita una GPU NVIDIA compatible para una ejecución práctica; en esta máquina de desarrollo se detectó una GPU integrada Intel, por lo que la prueba con difusión debe hacerse en Colab con GPU.
