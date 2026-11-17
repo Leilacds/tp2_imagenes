@@ -152,7 +152,7 @@ tp2_imagenes/
 
 ## Ejecución local
 
-Se requiere Python 3.12 y `uv`. La difusión necesita una GPU NVIDIA compatible para una ejecución práctica; en esta máquina de desarrollo se detectó una GPU integrada Intel, por lo que la prueba con difusión debe hacerse en Colab con GPU.
+Se requiere Python 3.12 y `uv`. La difusión necesita una GPU NVIDIA compatible para una ejecución práctica. En esta máquina de desarrollo se detectó una GPU integrada Intel; la autora informó que probó el proyecto localmente en otra PC y funcionó correctamente. No se registraron las especificaciones de esa computadora.
 
 ```powershell
 uv sync

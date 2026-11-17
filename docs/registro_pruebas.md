@@ -17,6 +17,12 @@ Registrar pruebas del MVP de reducción de ruido con difusión. Cada prueba incl
 La intensidad 0.25 y la semilla 42 corresponden a los valores usados en ambas pruebas según lo informado. La semilla fija el inicio aleatorio de la generación para facilitar la comparación; no garantiza que el resultado sea idéntico entre distintos entornos.
 La cantidad de pasos de inferencia no se configura desde la interfaz; queda fijada en [`src/tp2_imagenes/diffusion.py`](../src/tp2_imagenes/diffusion.py).
 
+## Validación adicional — Ejecución local
+
+- **Estado:** la autora informó que el proyecto se ejecutó correctamente en otra computadora.
+- **Detalles del entorno:** sistema operativo, GPU, versión de Python e imagen usada no fueron registrados.
+- **Interpretación:** esto aporta una validación adicional de ejecución local. Para que la prueba sea reproducible, conviene anotar esas especificaciones si están disponibles.
+
 ---
 
 ## Prueba 1 — Caso favorable
