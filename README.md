@@ -111,7 +111,7 @@ Revisá las fichas y condiciones de uso de los modelos antes de utilizarlos. La 
 
 ### Cómo trabajan los modelos
 
-**SDXL image-to-image es el modelo de difusión del proyecto.** En términos simples, recibe la imagen y una instrucción textual sobre el aspecto deseado. El pipeline codifica la imagen en una representación interna, le agrega ruido según la intensidad elegida y realiza pasos iterativos para producir una nueva imagen guiada por la instrucción. En esta aplicación se usan 20 pasos, una instrucción para conservar la escena y reducir el ruido, y otra para desalentar cambios como agregar o quitar objetos.
+**SDXL image-to-image es el modelo de difusión del proyecto.** En términos simples, recibe la imagen y una instrucción textual sobre el aspecto deseado. El pipeline codifica la imagen en una representación interna, le agrega ruido según la intensidad elegida y realiza pasos iterativos para producir una nueva imagen guiada por la instrucción. Usa una instrucción para conservar la escena y reducir el ruido, y otra para desalentar cambios como agregar o quitar objetos. La cantidad de pasos de inferencia está fijada en el código de [diffusion.py](src/tp2_imagenes/diffusion.py); no es un control de la interfaz.
 
 La **intensidad** (`strength`) determina cuánto se perturba la representación de entrada antes de la generación: más intensidad da al modelo más margen para cambiar la imagen. No equivale al porcentaje de ruido eliminado ni garantiza una mejora. La **semilla** fija el inicio aleatorio de la generación para facilitar comparaciones bajo la misma configuración. Aun con intensidad baja, SDXL puede alterar o inventar detalles porque es un modelo generativo general, no un restaurador especializado.
 
