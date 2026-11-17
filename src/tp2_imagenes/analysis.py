@@ -6,7 +6,7 @@ from functools import lru_cache
 from typing import TYPE_CHECKING
 
 from PIL import Image
-from transformers import pipeline
+from transformers.pipelines import pipeline
 
 if TYPE_CHECKING:
     from transformers.pipelines import Pipeline

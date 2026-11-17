@@ -6,14 +6,22 @@ from unittest.mock import patch
 
 
 class AnalysisImportTests(unittest.TestCase):
-    def test_import_does_not_require_pipeline_type_at_transformers_top_level(self) -> None:
+    def test_import_uses_pipeline_module_not_transformers_top_level(self) -> None:
         module_name = "tp2_imagenes.analysis"
         previous_module = sys.modules.pop(module_name, None)
         fake_transformers = types.ModuleType("transformers")
-        fake_transformers.pipeline = lambda **_kwargs: None
+        fake_transformers.__path__ = []
+        fake_pipelines = types.ModuleType("transformers.pipelines")
+        fake_pipelines.pipeline = lambda **_kwargs: None
 
         try:
-            with patch.dict(sys.modules, {"transformers": fake_transformers}):
+            with patch.dict(
+                sys.modules,
+                {
+                    "transformers": fake_transformers,
+                    "transformers.pipelines": fake_pipelines,
+                },
+            ):
                 analysis = importlib.import_module(module_name)
             self.assertEqual(analysis.MODEL_ID, "PekingU/rtdetr_r50vd")
         finally:
