@@ -130,12 +130,17 @@ tp2_imagenes/
 ├── .gitignore                     # Archivos locales, cachés y pesos que no se versionan
 ├── README.md                      # Guía del proyecto, uso, modelos y limitaciones
 ├── assets/
-│   └── ejemplos/                  # Imágenes sintéticas y copias ruidosas para pruebas
+│   └── ejemplos/
+│       ├── prueba_favorable_ruidosa.png
+│       ├── prueba_limite_texto_y_patrones.png
+│       ├── foto_cafe_ruido_favorable.png
+│       └── foto_edificio_ruido_negativa.png
+│                                   # Ejemplos sintéticos y copias ruidosas para pruebas
 ├── docs/
 │   ├── trabajo_integrador_2.ipynb # Consigna del trabajo práctico
+│   ├── registro_pruebas.md        # Parámetros, resultados e interpretación de pruebas
 │   ├── flujograma_software.png    # Diagrama visual del flujo del sistema
-│   └── presentacion_conceptual_difusion.png
-│                                   # Lámina conceptual del proyecto
+│   └── presentacion_conceptual_difusion.png # Lámina conceptual del proyecto
 ├── notebooks/
 │   └── ejecutar_en_colab.ipynb    # Configura Colab con GPU, instala y lanza la app
 ├── src/
