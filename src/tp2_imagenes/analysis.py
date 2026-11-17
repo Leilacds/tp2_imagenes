@@ -10,6 +10,7 @@ from PIL import Image
 
 # The app uses PyTorch; avoid loading Colab's unrelated TensorFlow/JAX stack.
 os.environ["USE_TF"] = "0"
+os.environ["USE_FLAX"] = "0"
 
 from transformers.pipelines import pipeline
 

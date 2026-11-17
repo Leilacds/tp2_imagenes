@@ -16,7 +16,10 @@ class AnalysisImportTests(unittest.TestCase):
         fake_pipelines.pipeline = lambda **_kwargs: None
 
         try:
-            with patch.dict(os.environ, {"USE_TF": "AUTO"}):
+            with patch.dict(
+                os.environ,
+                {"USE_TF": "AUTO", "USE_FLAX": "AUTO"},
+            ):
                 with patch.dict(
                     sys.modules,
                     {
@@ -26,6 +29,7 @@ class AnalysisImportTests(unittest.TestCase):
                 ):
                     analysis = importlib.import_module(module_name)
                 self.assertEqual(os.environ["USE_TF"], "0")
+                self.assertEqual(os.environ["USE_FLAX"], "0")
             self.assertEqual(analysis.MODEL_ID, "PekingU/rtdetr_r50vd")
         finally:
             sys.modules.pop(module_name, None)
