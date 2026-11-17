@@ -1,4 +1,5 @@
 import importlib
+import os
 import sys
 import types
 import unittest
@@ -15,14 +16,16 @@ class AnalysisImportTests(unittest.TestCase):
         fake_pipelines.pipeline = lambda **_kwargs: None
 
         try:
-            with patch.dict(
-                sys.modules,
-                {
-                    "transformers": fake_transformers,
-                    "transformers.pipelines": fake_pipelines,
-                },
-            ):
-                analysis = importlib.import_module(module_name)
+            with patch.dict(os.environ, {"USE_TF": "AUTO"}):
+                with patch.dict(
+                    sys.modules,
+                    {
+                        "transformers": fake_transformers,
+                        "transformers.pipelines": fake_pipelines,
+                    },
+                ):
+                    analysis = importlib.import_module(module_name)
+                self.assertEqual(os.environ["USE_TF"], "0")
             self.assertEqual(analysis.MODEL_ID, "PekingU/rtdetr_r50vd")
         finally:
             sys.modules.pop(module_name, None)

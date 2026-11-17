@@ -40,33 +40,10 @@ La primera ejecución descarga los modelos. Para una instalación local con GPU,
 
 ## Ejecución en Google Colab
 
-1. Abrí un notebook nuevo en [Google Colab](https://colab.research.google.com/) y elegí **Entorno de ejecución → Cambiar tipo de entorno de ejecución → GPU T4**.
-2. Confirmá que Colab asignó una GPU:
-
-   ```python
-   !nvidia-smi
-   ```
-
-   ```python
-   import torch
-   print("CUDA disponible:", torch.cuda.is_available())
-   if torch.cuda.is_available():
-       print(torch.cuda.get_device_name(0))
-   ```
-
-3. Asegurate de haber subido a GitHub los archivos del proyecto. Después, cloná el repositorio y ejecutá desde celdas:
-
-   ```python
-   !pip install -q uv
-   !git clone --branch desarrollo https://github.com/Leilacds/tp2_imagenes.git
-   %cd tp2_imagenes
-   !uv pip install --system -e .
-   !python app.py
-   ```
-
-   Colab suele incluir PyTorch con CUDA. Ejecutá la comprobación de CUDA antes de instalar; si devuelve `False`, no continúes con la inferencia hasta habilitar una GPU compatible.
-
-4. Abrí el enlace temporal de Gradio que imprime la aplicación. La primera inferencia descarga los pesos y puede demorar.
+1. Abrí [`notebooks/ejecutar_en_colab.ipynb`](https://colab.research.google.com/github/Leilacds/tp2_imagenes/blob/desarrollo/notebooks/ejecutar_en_colab.ipynb) en Colab. El notebook debe estar subido a GitHub en la rama `desarrollo`.
+2. Elegí **Entorno de ejecución → Cambiar tipo de entorno de ejecución → GPU T4**.
+3. Ejecutá las celdas en orden. El notebook verifica CUDA, clona la rama `desarrollo`, instala el proyecto y lanza la aplicación.
+4. Abrí el enlace temporal de Gradio que imprime la última celda. La primera instalación y descarga de los modelos puede demorar.
 
 El uso de la GPU gratuita depende de la disponibilidad de Colab; que aparezca la opción T4 no garantiza que siempre haya recursos disponibles.
 

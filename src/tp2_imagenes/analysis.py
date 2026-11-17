@@ -1,11 +1,16 @@
 from __future__ import annotations
 
+import os
 from collections import Counter
 from collections.abc import Mapping, Sequence
 from functools import lru_cache
 from typing import TYPE_CHECKING
 
 from PIL import Image
+
+# The app uses PyTorch; avoid loading Colab's unrelated TensorFlow/JAX stack.
+os.environ["USE_TF"] = "0"
+
 from transformers.pipelines import pipeline
 
 if TYPE_CHECKING:
