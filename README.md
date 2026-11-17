@@ -20,6 +20,33 @@ El MVP se limita a la reducción de ruido; no intenta corregir desenfoque de mov
 
 Las detecciones no prueban que el contenido sea idéntico: el detector puede equivocarse y no compara la identidad exacta de cada objeto. El mapa muestra cambios de píxeles, no su significado. La línea base es una referencia visual, no una métrica de calidad.
 
+## Uso de la interfaz
+
+1. Abrí la app y cargá una imagen en **Imagen de entrada**. La imagen debe tener al menos 64 × 64 píxeles; se procesa en color RGB.
+2. Elegí la **intensidad de difusión** y la **semilla** (ver abajo). Para la primera prueba, podés dejar los valores iniciales.
+3. Presioná **Reducir ruido** y esperá a que terminen la difusión y el análisis visual. La primera ejecución puede tardar porque se descargan y cargan los modelos.
+4. Revisá todas las salidas. En el comparador **Original / difusión**, mové el divisor para inspeccionar distintas zonas antes y después.
+
+### Intensidad de difusión
+
+- Rango disponible: **0.10–0.45**, con pasos de **0.05**. Valor inicial: **0.25**.
+- Es el parámetro `strength` de SDXL image-to-image; **no es un porcentaje de ruido eliminado**.
+- Un valor bajo limita cuánto se aparta la generación de la imagen de entrada. Un valor más alto permite cambios mayores, y con ellos aumenta el riesgo de modificar o inventar objetos, texturas, bordes y letras.
+- Para comparar valores, mantené la misma imagen y semilla. Empezá por 0.25 y revisá el resultado antes de probar una intensidad mayor.
+
+### Semilla
+
+- Rango disponible: **0–999999**. Valor inicial: **42**.
+- La semilla inicializa la generación aleatoria del modelo. Con la misma imagen, modelo, intensidad y entorno, reutilizarla permite repetir la configuración y facilita la comparación.
+- Cambiar la semilla puede producir otra versión de la imagen; **no cambia directamente la cantidad de ruido ni garantiza una mejora**. La reproducibilidad exacta puede variar entre versiones de software y hardware.
+
+### Cómo interpretar las salidas
+
+- **Original / difusión:** comparación interactiva de la entrada con el resultado generado por SDXL.
+- **Línea base: filtro bilateral:** resultado de un filtro clásico aplicado a la entrada. Sirve de referencia visual; no utiliza difusión ni determina por sí solo cuál resultado es mejor.
+- **Mapa de diferencias:** resalta los cambios de píxeles entre la entrada y la salida de difusión. Más brillo significa una diferencia mayor tras amplificarla para verla; no indica si el cambio es correcto, real o una mejora.
+- **Análisis de objetos (RT-DETR):** compara las etiquetas y cantidades de objetos detectados antes y después. Solo incluye detecciones con confianza de al menos **0.40**. Una etiqueta que aparece o desaparece es una señal para revisar la imagen, no una prueba concluyente: el detector puede equivocarse y no verifica identidad ni autenticidad.
+
 ## Imágenes de prueba
 
 En [`assets/ejemplos/`](assets/ejemplos/) hay dos imágenes sintéticas para probar el flujo:
@@ -28,6 +55,13 @@ En [`assets/ejemplos/`](assets/ejemplos/) hay dos imágenes sintéticas para pro
 - `prueba_limite_texto_y_patrones.png`: texto pequeño y patrones repetidos para observar posibles alteraciones.
 
 Son ilustraciones generadas por código, no fotografías reales. Sirven para una prueba inicial de la aplicación, pero no reemplazan la validación con fotos propias.
+
+También están disponibles dos copias con ruido de fotos de prueba:
+
+- `foto_cafe_ruido_favorable.png`: caso positivo inicial, con objetos reconocibles.
+- `foto_edificio_ruido_negativa.png`: caso desafiante por sus líneas finas, ventanas y texto.
+
+Estas pruebas ayudan a observar el comportamiento del sistema, pero no garantizan que el resultado vaya a ser favorable o negativo antes de ejecutar el modelo.
 
 ## Modelos y licencias
 
