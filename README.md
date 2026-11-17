@@ -18,6 +18,45 @@ El MVP se limita a la reducción de ruido; no intenta corregir desenfoque de mov
 4. RT-DETR detecta objetos en la imagen original y en la procesada, y muestra las etiquetas que cambiaron.
 5. Se presentan la comparación antes/después, la línea base y un mapa de diferencias.
 
+```text
+             +----------------------+
+             |  Persona usuaria     |
+             |  carga una imagen    |
+             +----------+-----------+
+                        |
+                        v
+             +----------------------+
+             | Interfaz web Gradio  |
+             | intensidad + semilla|
+             +----------+-----------+
+                        |
+            +-----------+-----------+
+            |                       |
+            v                       v
+ +----------------------+  +----------------------+
+ | SDXL image-to-image  |  | Filtro bilateral    |
+ | resultado generado  |  | línea base clásica  |
+ +----------+-----------+  +----------------------+
+            |
+            v
+ +----------------------+
+ | RT-DETR analiza      |
+ | original y resultado |
+ +----------+-----------+
+            |
+            v
+ +----------------------------------------------+
+ | Comparación antes/después + línea base       |
+ | mapa de diferencias + etiquetas detectadas   |
+ +----------------------------------------------+
+            |
+            v
+ +----------------------------------------------+
+ | Revisar cambios: la difusión puede inventar  |
+ | detalles; el análisis no prueba autenticidad |
+ +----------------------------------------------+
+```
+
 Las detecciones no prueban que el contenido sea idéntico: el detector puede equivocarse y no compara la identidad exacta de cada objeto. El mapa muestra cambios de píxeles, no su significado. La línea base es una referencia visual, no una métrica de calidad.
 
 ## Uso de la interfaz
